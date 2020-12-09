@@ -1,3 +1,41 @@
+html {
+    font-family: Arial, sans-serif;
+}
+
 textarea {
     min-height: 400px;
+}
+
+.email {
+    /*background-color: #77dd11;*/
+    padding: 20px;
+    margin: 2px;
+    border: 1px solid black;
+    /*border-collapse: collapse;*/
+    /*text-align: justify;*/
+}
+
+.date {
+    text-align: justify;
+}
+
+.headers {
+    /*background-color: #77dd11;*/
+    padding: 20px;
+    margin: 2px;
+    border: 1px solid black;
+    /*border-collapse: collapse;*/
+    /*text-align: justify;*/
+}
+
+.body {
+    padding: 20px;
+    margin: 5px;
+    border: 1px solid black;
+    min-height: 400px;
+    white-space: pre-wrap;
+}
+
+.btn {
+    margin: 5px;
 }

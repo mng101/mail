@@ -23,6 +23,12 @@ class Email(models.Model):
             "recipients": [user.email for user in self.recipients.all()],
             "subject": self.subject,
             "body": self.body,
+            # The original code shown below generates an exception - Invalid format string
+            #   "timestamp": self.timestamp.strftime("%b %-d %Y, %-I:%M %p"),
+            # Replaced with the line below. Added %Z to allow conversion to LocaleString
+            #
+            "timestamp": self.timestamp.strftime("%b %d %Y, %I:%M %p %Z"),
+            #
             "timestamp": self.timestamp.strftime("%b %-d %Y, %-I:%M %p"),
             "read": self.read,
             "archived": self.archived

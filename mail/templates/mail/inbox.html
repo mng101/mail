@@ -14,6 +14,10 @@
     <div id="emails-view">
     </div>
 
+    {# View to display the Email   #}
+    <div id="read-view">
+    </div>
+
     <div id="compose-view">
         <h3>New Email</h3>
         <form id="compose-form">
@@ -27,6 +31,12 @@
                 <input class="form-control" id="compose-subject" placeholder="Subject">
             </div>
             <textarea class="form-control" id="compose-body" placeholder="Body"></textarea>
+
+            {# Updated the following line in the original distrubution #}
+            {#   <input type="submit" class="btn btn-primary"/> #}
+            {# with the line below #}
+            <input type="submit" value = "Send" onclick="send_email()" class="btn btn-primary"/>
+            {# *** end of update #}
             <input type="submit" class="btn btn-primary"/>
         </form>
     </div>
