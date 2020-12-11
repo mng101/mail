@@ -24,8 +24,8 @@ function compose_email() {
 }
 
 function send_email() {
-    console.log('Sending email')
 
+    // console.log('Sending email')
     // Capture the values to POST in the JSON body
     let recipients = document.getElementById("compose-recipients").value;
     let subject = document.getElementById("compose-subject").value;
@@ -45,8 +45,7 @@ function send_email() {
         console.log('Error:', error);
     })
 
-    return(false);
-    // location.replace(location.origin);
+    location.replace(location.origin);
 }
 
 function load_mailbox(mailbox) {
@@ -83,16 +82,15 @@ function list_emails(contents, mailbox) {
     const utcDate = new Date(contents.timestamp);
 
     // Display the Sender, Subject and Timestamp of the email
-    // element.innerHTML = `<b>${contents.sender}</b> &nbsp&nbsp ${contents.subject} <span style="float: right">${contents.timestamp}</span>`;
     element.innerHTML = `<b>${contents.sender}</b> &nbsp&nbsp ${contents.subject} <span style="float: right">${utcDate.toLocaleString()}</span>`;
 
     // If the email has been read, change to a gray background
     if (contents.read === true)
         element.style.background = "#c4c4c4";
 
-     // Add an event handler
+    // Add an event handler
     element.addEventListener('click', function() {
-        console.log('read_email event triggered:', contents.id, mailbox);
+        // console.log('read_email event triggered:', contents.id, mailbox);
         read_email(contents.id, mailbox);
     })
 
@@ -100,9 +98,10 @@ function list_emails(contents, mailbox) {
     document.querySelector('#emails-view').append(element);
 }
 
-function read_email(id, mailbox){
-    const email_id = id;
+function read_email(email_id, mailbox) {
 
+    // Load the email identified. The mailbox vlaue is required to pass on to the downstream functions
+    //
     console.log('Loading email ID: ', email_id)
 
     fetch(`/emails/${email_id}`)
@@ -141,9 +140,10 @@ function show_email(contents, mailbox){
     document.querySelector('#read-view').append(emailbodyDiv);
 
     // If reading email from the Sent folder, skip the Reply and Archive/Unarchive buttons
+    //
     if (mailbox !== "sent") {
         // Add the "Reply" button
-        console.log("Adding Reply button");
+        // console.log("Adding Reply button");
         const btn1 = document.createElement('BUTTON');
         btn1.className = "btn btn-lg btn-primary";
         btn1.innerHTML = "Reply";
@@ -170,16 +170,14 @@ function show_email(contents, mailbox){
         }
     }
 
-    // Mark the email as "read"
-    console.log("Read flag: ", contents.read);
+    // Mark the email as "read" if not already marked
+    // console.log("Read flag: ", contents.read);
     if (!contents.read) {
         mark_as_read(contents.id);
     }
 }
 
-function mark_as_read(id) {
-    const email_id = id;
-    // console.log(typeof email_id);
+function mark_as_read(email_id) {
 
     console.log("Marking as read. Email ID: ", email_id);
 
@@ -227,7 +225,7 @@ function compose_reply(original) {
     document.querySelector('#read-view').style.display = 'none';
     document.querySelector('#compose-view').style.display = 'block';
 
-    // Populate the composition fields
+    // Populate the composition fields from the original email
     document.querySelector('#compose-recipients').value = `${original.sender}`;
     let newSubject = '';
     console.log(original.subject.substring(0,4));
@@ -239,17 +237,13 @@ function compose_reply(original) {
     document.querySelector('#compose-subject').value = newSubject;
 
     const utcDate = new Date(original.timestamp);
-    console.log(Date(original.timestamp).toLocaleString());
-    console.log(utcDate.toLocaleString());
-    console.log(utcDate.toString());
-    console.log(original.timestamp.toLocaleString());
-
-    // let newBody = "\r\n";
     const dateSent = utcDate.toLocaleString('en-US', {dateStyle: 'full', timeStyle: 'long'});
 
-    const newBody = "\r\nOn " + dateSent + " " + original.sender + " wrote:";
-
-    // newBody += `On ${dateSent.italics()} ${(original.sender).bold()} wrote: \r\n\r\n`;
+    // Format the body of the Reply email starting with a blank line
+    let newBody = "\r\r";
+    // Add original email header
+    newBody += "On " + dateSent + " " + original.sender + " wrote: \r\n";
+    // Add original email text
     newBody += original.body;
 
     document.querySelector('#compose-body').value = newBody;
